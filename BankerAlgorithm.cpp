@@ -1,4 +1,5 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -7,18 +8,27 @@ void calc_need(int n,int m,vector<vector<int>> &maxi,vector<vector<int>> &alloc,
         vector<int>temp;
         for(int j=0;j<m;j++){
             temp.push_back(maxi[i][j]-alloc[i][j]);
-            //cout<<need[i][j]<<" ";
-
         }
         need.push_back(temp);
-        //cout<<endl;
     }
 }
 
+void print_res(int m){
+    cout<<"    ";
+    char ch='A';
+    for(int i=0;i<m;i++){
+        cout<<ch<<"   ";
+        ch++;
+    }
+    cout<<endl;
+}
+
+
 void print_need(int n,int m,vector<vector<int>> &need){
     for(int i=0;i<n;i++){
+        cout<<"P"<<i<<"  ";
         for(int j=0;j<m;j++){
-            cout<<need[i][j]<<" ";
+            cout<<need[i][j]<<"   ";
         }
         cout<<endl;
     }
@@ -26,7 +36,9 @@ void print_need(int n,int m,vector<vector<int>> &need){
 
 void cin_matrix_two(int n,int m,vector<vector<int>> &vec){
     int val;
+    print_res(m);
     for(int i=0;i<n;i++){
+        cout<<"P"<<i<<"  ";
         vector <int> temp;
         for(int j=0;j<m;j++){
 
@@ -38,6 +50,8 @@ void cin_matrix_two(int n,int m,vector<vector<int>> &vec){
 }
 void cin_matrix_one(int m,vector<int> &vec){
     int val;
+    print_res(m);
+    cout<<"P0"<<"  ";
     for(int j=0;j<m;j++){
 
         cin>>val;
@@ -58,7 +72,7 @@ void assign_vec_into_vec_one(vector<int> &vec1,vector<int>&vec2){
 }
 
 bool req_greater_than_need(int p,int m,vector<int> &request,vector<vector<int>> &need){
-//request[i]>need[p][i]
+    //request[i]>need[p][i]
 
     if(request>need.at(p)){
         return true;
@@ -78,30 +92,26 @@ bool req_greater_than_available(int p,int m,vector<int> &request,vector<int> &av
 
 
 
-bool check_safety(int n,int m,vector<int> &available,vector<vector<int>> &need,vector<vector<int>> &alloc){
-//safety algorithm
-//work=available
+bool check_safety(int n,int m,int p,vector<int> &available,vector<vector<int>> &need,vector<vector<int>> &alloc,vector<int> &pind,string checklow){
+    //safety algorithm
+    //work=available
 
     vector<int> work;
     vector<bool> finish;
-    vector<int> pind;  //n*1
     int count;
     int flag=1;
-    int num=0;
-
     int fold=1,fcount=-1; //no. of false in finish array
-
     for(int j=0;j<m;j++){
         work.push_back(available[j]);
     }
 
-//finish=false
+    //finish=false
 
     for(int j=0;j<n;j++){
         finish.push_back(false);
     }
 
-//find i such that finish=false and need<=work
+    //find i such that finish=false and need<=work
     while(fold!=fcount&&fcount!=0){
         flag=1;
         for(int i=0;i<n;i++){
@@ -144,9 +154,13 @@ bool check_safety(int n,int m,vector<int> &available,vector<vector<int>> &need,v
 
 
 
-//print if the system is in safe state or not
+    //print if the system is in safe state or not
     if(flag){
-        cout<<"System is in safe state and the sequence of processes are :"<<"<";
+
+        cout<<"Yes , System is in safe state and the sequence of processes are :"<<endl<<"<";
+        if(checklow=="immediaterequest"){
+            cout<<"P"<<p<<"req"<<" ";
+        }
         for(int i=0;i<n;i++){
             cout<<"P"<<pind[i]<<" ";
         }
@@ -154,17 +168,18 @@ bool check_safety(int n,int m,vector<int> &available,vector<vector<int>> &need,v
         return true;
     }
     else{
-        cout<<"System is not in safe state"<<endl;
+        cout<<" No , System is not in safe state"<<endl;
         return false;
     }
 }
 
 
-void resource_request(int n,int m,int p,vector<int> &request,vector<vector<int>> &need,vector<int> &available,vector<vector<int>> &alloc){
+void resource_request(int n,int m,int p,vector<int> &request,vector<vector<int>> &need,vector<int> &available,vector<vector<int>> &alloc,vector<int> &pind,string checklow){
     //Resource-request Algorithm for a process
 
-//request<=need
+    //request<=need
     int reqflag=1;
+
 
     if(req_greater_than_need(p,m,request,need)){
         reqflag=0;
@@ -202,8 +217,9 @@ void resource_request(int n,int m,int p,vector<int> &request,vector<vector<int>>
 
             //check if safe the resources are allocated to pi
 
-            bool check=check_safety(n,m,tryavailable,tryneed,tryalloc);
+            bool check=check_safety(n,m,p,tryavailable,tryneed,tryalloc,trypind,checklow);
             if(check){
+
                 cout<<"So,The resource can be allocated to P"<<p<<endl;
                 assign_vec_into_vec_two(tryneed,need);
                 assign_vec_into_vec_one(tryavailable,available);
@@ -241,7 +257,6 @@ int main()
     vector<int> request;   //1*m
     int p;
 
-
     //inputs
 
     cout<<"Please Enter values of allocation matrix"<<endl;
@@ -257,11 +272,12 @@ int main()
 
 
 
-//Outputs
-//need matrix
+    //Outputs
+    //need matrix
 
     cout<<"The value of need matrix is : "<<endl;
     calc_need(n,m,maxi,alloc,need);
+    print_res(m);
     print_need(n,m,need);
 
 
@@ -284,7 +300,7 @@ int main()
 
         if(checklow=="safestate"){
             //safe algorithm
-            check_safety(n,m,available,need,alloc);
+            check_safety(n,m,p,available,need,alloc,pind,checklow);
         }
 
         //enter immediate request to check request by one of the processes if it can be granted
@@ -297,7 +313,7 @@ int main()
 
             // Grant request vector to check if it is safe or not
             //Resource-request Algorithm for a process
-            resource_request(n,m,p,request,need,available,alloc);
+            resource_request(n,m,p,request,need,available,alloc,pind,checklow);
         }
 
     }

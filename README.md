@@ -38,5 +38,5 @@ And so on , until you enter exit.
 
 
 <div align="center">
-<img src="https://github.com/nouraan-ahmed/Banker_algorithm/blob/main/img/ex.png" width="450" height="750" >  
+<img src="https://github.com/nouraan-ahmed/Banker_algorithm/blob/main/img/ex.png" width="550" height="600" >  
 </div>  

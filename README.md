@@ -1,7 +1,7 @@
 # Banker_algorithm
 The banker’s algorithm is a resource allocation and deadlock avoidance algorithm that tests for safety . In This project I implemented the algorithm using c++ and the implementation mainly depends on two dimentional vectors. The inputs are: number of processes,number of resources,alloation matrix,max matrix,available matrix,user can enquiry safe state,user can enquiry immediate request . The outputs are: need matrix,answer if the system is in safe state (and print sequence) or not , answer if the resource can be allocated to the process (and print sequence) or not .
 
-###Steps:
+### Steps:
 
 First: the user is asked to enter the number of processes and number of resources. 
 
@@ -13,13 +13,13 @@ Fourth The program ask if you want to check safe state of the system or ask  if 
 
 You can answer with safestate if you want safe state or answer with immediaterequest if you want immediate request. 
 
-#####The user entered safestate: 
+##### The user entered safestate: 
 
 First: The program will print whether the system is in safe state or not and if it is in safe state it print the sequence of processes. 
 
 Second: The program ask if you want to check safe state of the system or ask  if immediate request by one of the processes can be granted. 
 
-#####The user Entered immediaterequest: 
+##### The user Entered immediaterequest: 
 
 First: the program will ask you to enter the process number 
 
@@ -33,10 +33,10 @@ Fourth: The program ask if you want to check safe state of the system or ask  if
 
 And so on , until you enter exit. 
 
-###Example:
+### Example:
 
 
 
 <div align="center">
-<img src="https://github.com/nouraan-ahmed/Banker_algorithm/blob/main/img/ex.png" width="350" height="850" >  
+<img src="https://github.com/nouraan-ahmed/Banker_algorithm/blob/main/img/ex.png" width="450" height="750" >  
 </div>  
